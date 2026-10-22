@@ -1,37 +1,38 @@
-# Contributing to BeatBloom
+# Contributing / مشارکت
 
-Thanks for helping make BeatBloom better.
+BeatBloom welcomes focused improvements to musical workflows, accessibility, sound quality and privacy.
 
-## Before you start
+## Develop
 
-- Search existing issues before creating a new one.
-- Keep the app local-first and dependency-free unless a dependency has a clear benefit.
-- Do not add tracking, analytics, remote audio uploads, or mandatory accounts.
-- Preserve keyboard, touch, and mouse access.
+Use Node.js 24 LTS (minimum 22.13):
 
-## Development
-
-BeatBloom is a self-contained static app. Start a local server:
-
-```bash
-python3 -m http.server 8080
+```sh
+npm ci --ignore-scripts
+npm run dev
+npm run check
+npx playwright install chromium
+npm run test:e2e
+npm run test:production
 ```
 
-Open `http://localhost:8080`, then test at desktop and mobile widths.
+Use `npm run format` before committing. Public CI runs on Linux with Chromium; compatible installed Edge/Chrome can be selected locally using `PLAYWRIGHT_CHANNEL`.
+
+## Design and architecture
+
+- Keep audio processing on-device. Do not introduce analytics, remote project/audio uploads, external fonts or account requirements.
+- Put data validation and migrations in `model.js`, shared synthesis in `audio.js`, storage in `storage.js`, and interaction in `main.js`. Do not patch functions by rebinding older implementations.
+- Live and offline playback must use the same instrument/effect code. Verify sample scheduling against the audio clock and preserve exact recorded pitches.
+- Add a dependency only for a concrete benefit. Pin direct versions, commit the lockfile, and retain runtime license notices.
+- Treat filenames, project data and stored records as untrusted. Never insert user strings with `innerHTML` or spread imported objects into state.
+- Use the warm orange design tokens, Lucide icons, accessible control names, visible focus, keyboard access and reduced-motion support. Review English and Persian, 390px and desktop widths.
+- Include regression tests for behavior changes. Use short synthetic samples, not personal recordings or copyrighted audio.
 
 ## Pull requests
 
-1. Explain the user-facing problem.
-2. Keep changes focused.
-3. Test transport, loop resizing, presets, lane toggles, piano, guitar, sampler, project save/load, and WAV export.
-4. Check the browser console for errors.
-5. Include screenshots for visual changes.
-6. Verify that controls do not overlap at 390px and 1440px widths.
+Describe the user-visible problem, resulting behavior, validation and remaining limitations. Include real screenshots for UI changes. Keep generated builds, private projects, recordings, secrets, local paths and personal contact details out of commits. Use a GitHub noreply address for commits if you do not want your email published.
 
-## Audio contributions
+Use [private security reporting](https://github.com/maboox/BeatBloom/security/advisories/new) for exploitable issues. Public feature/bug reports belong in [Issues](https://github.com/maboox/BeatBloom/issues/new/choose).
 
-Prefer synthesized sounds or original/clearly licensed audio. Do not commit copyrighted samples without permission. Document the source and license of any included audio asset.
+## فارسی
 
-## Accessibility
-
-New controls should have accessible names, visible keyboard focus, sufficient contrast, and a minimum practical touch target of 44×44px where space permits.
+برای مشارکت، تغییرات را متمرکز نگه دار و آزمون‌های بالا را اجرا کن. حریم خصوصی، پردازش روی دستگاه، رابط فارسی و انگلیسی و دسترس‌پذیری باید حفظ شوند. از صداهای مصنوعی برای آزمون استفاده کن؛ ضبط شخصی، اطلاعات تماس، کلیدها و فایل پروژهٔ خصوصی را کامیت نکن. برای تغییر ظاهری عکس واقعی و برای تغییر عملکرد آزمون بازگشت خطا اضافه کن. مشکلات امنیتی قابل سوءاستفاده را خصوصی گزارش بده.

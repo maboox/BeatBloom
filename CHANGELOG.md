@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.0.0 — 2026-10-22
+
+- Rebuilt the application as modular, validated state, shared audio, storage and UI code.
+- Introduced a warm orange studio design, local Lucide icons, English/Persian interface, mobile layouts and accessible controls.
+- Fixed sample injection, unsafe project restoration, early sample scheduling, keyboard collisions, stale playheads, microphone lifecycle and incomplete WAV exports.
+- Added independent recorded instrument notes, lane volume, undo/redo, explicit sample deletion and local-data erasure.
+- Added portable `.beatbloom` files containing sample audio and WAV export with optional sound tails.
+- Added reproducible Vite builds, pinned dependencies/actions, lint/format checks, regression/accessibility tests, Gitleaks, npm audit, CodeQL, Dependabot and CI-gated Pages publication.
+- Replaced personal commit metadata with the account's GitHub noreply identity.
+- Breaking development change: source now requires Node.js and a Vite build; direct `file://` execution is no longer supported. Legacy project JSON remains importable.
+
 ## 3.1.0 — 2026-07-22
 
 - Changed MIT copyright holder to Maboox.

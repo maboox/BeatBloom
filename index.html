@@ -1,290 +1,352 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>BeatBloom Studio — Local-first browser music maker</title>
-<meta name="description" content="A playful local-first browser studio for beats, instruments, voice recording, sampling and loops.">
-<meta name="theme-color" content="#0d0f14">
-<style>
-:root{--bg:#0d0f14;--panel:#151820;--raised:#1c202a;--line:#2b303d;--text:#f7f8fb;--muted:#9299a8;--lime:#b8f05a;--violet:#9f7aea;--cyan:#48cfe0;--orange:#ff9f43;--red:#ff6b6b;--shadow:0 18px 50px rgba(0,0,0,.32);--r:12px}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;overflow-x:hidden;background:radial-gradient(circle at 20% -10%,#25203e 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}button,input,select{font:inherit}button{color:inherit}.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}.topbar{height:68px;padding:10px 18px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line);background:rgba(13,15,20,.88);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20;direction:ltr}.brand{display:flex;align-items:center;gap:10px;min-width:196px}.logo{width:38px;height:38px;border-radius:11px;background:var(--lime);color:#111;display:grid;place-items:center;font-weight:1000;box-shadow:0 0 28px rgba(184,240,90,.23)}.brand strong{letter-spacing:-.4px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.transport{display:flex;align-items:center;gap:8px}.iconbtn,.action{border:1px solid var(--line);background:var(--raised);border-radius:9px;min-height:42px;cursor:pointer;transition:.16s ease;display:inline-flex;align-items:center;justify-content:center;gap:7px}.iconbtn{width:44px;font-size:18px}.action{padding:0 13px;font-size:13px}.iconbtn:hover,.action:hover{border-color:#495064;transform:translateY(-1px)}.iconbtn.primary{background:var(--lime);color:#111;border-color:var(--lime)}.iconbtn.active{background:var(--red);border-color:var(--red);color:#fff}.time{font-variant-numeric:tabular-nums;min-width:82px;color:var(--lime);font-weight:700;font-size:14px;text-align:center}.control{display:flex;align-items:center;gap:8px;border-right:1px solid var(--line);padding-right:16px}.control label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.num{width:64px;background:transparent;border:0;color:#fff;font-weight:800;font-size:15px;outline:none}.spacer{flex:1}.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}.dot{width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 10px var(--lime)}
-.workspace{padding:18px;display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;direction:ltr;max-width:1800px;width:100%;margin:auto}.workspace>*{min-width:0}.card{background:linear-gradient(180deg,rgba(28,32,42,.98),rgba(21,24,32,.98));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}.cardhead{min-height:50px;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);direction:ltr}.cardhead h2{font-size:13px;margin:0;letter-spacing:.8px;text-transform:uppercase}.cardhead span{font-size:11px;color:var(--muted)}.pattern-select{margin-left:auto}.select{background:#11141a;color:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;outline:none}.sequencer{min-width:770px}.tracks{padding:8px}.track{display:grid;grid-template-columns:160px repeat(16,minmax(28px,1fr));gap:6px;align-items:center;padding:6px;border-radius:10px}.track:hover{background:rgba(255,255,255,.025)}.track-info{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:8px}.track-icon{width:34px;height:34px;border-radius:9px;background:var(--tone);color:#101216;display:grid;place-items:center;font-weight:900}.track-name{font-size:12px;font-weight:800}.track-sub{font-size:9px;color:var(--muted);margin-top:2px}.mini{width:26px;height:26px;border:1px solid var(--line);background:#11141a;color:var(--muted);border-radius:7px;font-size:10px;cursor:pointer;padding:0}.mini.on{color:#111;background:var(--tone);border-color:var(--tone)}.step{aspect-ratio:1;border:1px solid #303645;background:#202530;border-radius:7px;cursor:pointer;position:relative;transition:.12s}.step:nth-of-type(5),.step:nth-of-type(9),.step:nth-of-type(13),.step:nth-of-type(17){border-right-color:#596174}.step:hover{transform:translateY(-2px);border-color:var(--tone)}.step.on{background:var(--tone);border-color:var(--tone);box-shadow:0 0 16px color-mix(in srgb,var(--tone) 26%,transparent)}.step.playing:after{content:"";position:absolute;inset:-3px;border:2px solid #fff;border-radius:9px;box-shadow:0 0 12px rgba(255,255,255,.28)}.step:focus-visible,.iconbtn:focus-visible,.action:focus-visible,.pad:focus-visible,.key:focus-visible{outline:2px solid #fff;outline-offset:2px}.note-row{display:grid;grid-template-columns:160px repeat(16,minmax(28px,1fr));gap:6px;padding:0 14px 12px}.note-row div:first-child{color:var(--muted);font-size:10px;display:flex;align-items:center}.note{width:100%;background:#11141a;color:var(--muted);border:1px solid var(--line);border-radius:6px;font-size:9px;padding:5px 0;text-align:center;appearance:none}.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.pads{padding:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pad{min-height:92px;border:1px solid var(--line);background:linear-gradient(145deg,#272c38,#171a22);border-radius:12px;cursor:pointer;text-align:left;padding:12px;position:relative;overflow:hidden}.pad:before{content:"";position:absolute;width:68px;height:68px;border-radius:50%;background:var(--tone);filter:blur(32px);opacity:.16;right:-10px;bottom:-20px}.pad:hover,.pad.hit{border-color:var(--tone);transform:translateY(-1px)}.pad b{display:block;color:var(--tone);font-size:13px}.pad small{position:absolute;bottom:10px;left:12px;color:var(--muted);font-size:10px}.keyboard{height:142px;padding:14px;display:flex;direction:ltr}.key{flex:1;border:1px solid #cfd2d8;background:#f5f5f2;border-radius:0 0 6px 6px;margin-right:2px;position:relative;cursor:pointer;color:#111;padding:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:9px;font-size:9px;font-weight:800}.key.black{background:#171a22;color:#fff;height:62%;margin:0 -12px;z-index:2;flex:0 0 24px;border-color:#050608;padding-bottom:7px}.key.active{background:var(--lime);box-shadow:inset 0 -8px 0 rgba(0,0,0,.1)}.side{display:flex;flex-direction:column;gap:16px;direction:ltr}.hero{padding:18px;background:radial-gradient(circle at 90% 10%,rgba(184,240,90,.13),transparent 36%),linear-gradient(150deg,#1d2330,#151820)}.hero .eyebrow{color:var(--lime);font-size:10px;text-transform:uppercase;letter-spacing:1.4px}.hero h1{font-size:24px;line-height:1.1;margin:9px 0 8px;letter-spacing:-.7px}.hero p{font-size:12px;color:var(--muted);line-height:1.55;margin:0}.meter{height:68px;margin-top:16px;display:flex;align-items:flex-end;gap:4px}.bar{flex:1;min-height:5px;border-radius:3px 3px 1px 1px;background:linear-gradient(to top,var(--lime),var(--cyan));opacity:.72;transition:height .09s}.section{padding:14px}.section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px}.slider-row{display:grid;grid-template-columns:70px 1fr 38px;gap:10px;align-items:center;margin:11px 0}.slider-row label{font-size:11px}.value{font-size:10px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:var(--lime)}.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.preset{padding:11px 8px;border:1px solid var(--line);background:#12151c;border-radius:9px;color:#cfd3dc;cursor:pointer;font-size:11px;text-align:left}.preset:hover{border-color:var(--lime);color:#fff}.save-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.save-row .action{min-height:38px}.tip{font-size:10px;line-height:1.55;color:var(--muted);padding:12px 14px;border-top:1px solid var(--line)}.footer{min-height:34px;padding:7px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;display:flex;justify-content:space-between;direction:ltr}.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#f5f5f2;color:#111;padding:11px 16px;border-radius:9px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:.22s;z-index:50;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.mobile-tabs{display:none}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-@media(max-width:1100px){.workspace{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.side .card:last-child{grid-column:1/-1}.topbar .status,.brand small{display:none}.sequencer-wrap{overflow-x:auto}}@media(max-width:700px){.topbar{height:auto;flex-wrap:wrap;padding:8px 12px}.brand{min-width:140px}.spacer{display:none}.control{padding-right:8px}.workspace{padding:10px;gap:10px}.bottom-grid,.side{grid-template-columns:1fr}.side .card:last-child{grid-column:auto}.sequencer{min-width:720px}.pads{grid-template-columns:1fr 1fr}.pad{min-height:78px}.footer{display:none}.action .wide{display:none}.time{min-width:64px}.hero{display:none}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
-</head>
-<body>
-<div class="app">
-<header class="topbar">
-  <div class="brand"><div class="logo">BB</div><div><strong>BeatBloom</strong><small>PLAYFUL MUSIC STUDIO</small></div></div>
-  <div class="transport">
-    <button class="iconbtn primary" id="play" aria-label="پخش">▶</button>
-    <button class="iconbtn" id="stop" aria-label="توقف">■</button>
-    <div class="time" id="time">01:01:000</div>
-  </div>
-  <div class="control"><div><label for="bpm">Tempo</label><br><input id="bpm" class="num" type="number" min="60" max="190" value="118"></div></div>
-  <div class="control"><div><label for="swing">Swing</label><br><input id="swing" type="range" min="0" max="55" value="12" aria-label="Swing"></div></div>
-  <div class="spacer"></div>
-  <div class="status"><span class="dot"></span> Audio ready</div>
-  <button class="action" id="randomize">✦ <span class="wide">Surprise me</span></button>
-  <button class="action" id="export">⇩ <span class="wide">Export WAV</span></button>
-</header>
-<main class="workspace">
-  <section>
-    <div class="card sequencer-wrap">
-      <div class="sequencer">
-        <div class="cardhead"><h2>Step Sequencer</h2><span>16 steps · 1 bar</span><select class="select pattern-select" id="pattern"><option value="custom">Custom groove</option><option value="house">Neon House</option><option value="chill">Lo-fi Sunday</option><option value="trap">Soft Trap</option><option value="disco">Pocket Disco</option></select></div>
-        <div class="tracks" id="tracks"></div>
-        <div class="note-row" id="notes"><div>BASS NOTES</div></div>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#141210" />
+    <meta
+      name="description"
+      content="Your little corner of sound. A private browser music studio for beats, instruments, voice and samples. No accounts. No uploads."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>BeatBloom — Your little corner of sound</title>
+  </head>
+  <body>
+    <a class="skip" href="#studio" data-i18n="skip">Skip to studio</a>
+    <header class="topbar">
+      <a class="brand" href="." aria-label="BeatBloom home"
+        ><span class="brandmark"><i data-lucide="audio-lines"></i></span
+        ><span>beatbloom<span class="brand-tag">THE LITTLE MUSIC STUDIO</span></span></a
+      ><span class="privacy"
+        ><span class="status-dot"></span
+        ><span data-i18n="private">Made here. Stays here.</span></span
+      >
+      <div class="header-actions">
+        <button id="help" class="icon-button" aria-label="Help">
+          <i data-lucide="circle-help"></i></button
+        ><button id="language" class="quiet-button">فارسی <i data-lucide="languages"></i></button
+        ><a
+          class="icon-button"
+          href="https://github.com/maboox/BeatBloom"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub repository"
+          ><i data-lucide="code-xml"></i
+        ></a>
       </div>
-    </div>
-    <div class="bottom-grid">
-      <div class="card"><div class="cardhead"><h2>Performance Pads</h2><span>Q W E R · A S D F</span></div><div class="pads" id="pads"></div></div>
-      <div class="card"><div class="cardhead"><h2>Mini Keys</h2><span>Z S X D C V G B H N J M</span></div><div class="keyboard" id="keyboard"></div></div>
-    </div>
-  </section>
-  <aside class="side">
-    <div class="card hero"><div class="eyebrow">Now creating</div><h1>Make a tiny<br>world of sound.</h1><p>ریتم بساز، با کیبورد بنواز و بدون نصب هیچ برنامه‌ای ایده‌ات را به یک لوپ زنده تبدیل کن.</p><canvas id="scope" width="560" height="136" class="meter" aria-label="نمایشگر صدا"></canvas></div>
-    <div class="card section"><div class="section-title">Sound shaping</div>
-      <div class="slider-row"><label for="filter">Filter</label><input id="filter" type="range" min="300" max="14000" value="9000"><span class="value" id="filterV">9.0k</span></div>
-      <div class="slider-row"><label for="delay">Delay</label><input id="delay" type="range" min="0" max="55" value="16"><span class="value" id="delayV">16%</span></div>
-      <div class="slider-row"><label for="space">Space</label><input id="space" type="range" min="0" max="60" value="22"><span class="value" id="spaceV">22%</span></div>
-      <div class="slider-row"><label for="master">Master</label><input id="master" type="range" min="0" max="100" value="78"><span class="value" id="masterV">78%</span></div>
-    </div>
-    <div class="card section"><div class="section-title">Quick scenes</div><div class="preset-grid"><button class="preset" data-scene="sunset">☼ Sunset haze</button><button class="preset" data-scene="club">◉ Tiny club</button><button class="preset" data-scene="space">✦ Deep space</button><button class="preset" data-scene="dry">◇ Clean room</button></div>
-      <div class="section-title" style="margin-top:18px">Project</div><div class="save-row"><button class="action" id="save">Save</button><button class="action" id="load">Load</button><button class="action" id="downloadJson">Project file</button><label class="action" style="cursor:pointer">Import<input class="sr" id="importJson" type="file" accept="application/json"></label></div>
-      <div class="tip">Space: پخش/توقف · کلیدهای Q تا F: درام‌پد · کلیدهای Z تا M: پیانو</div>
-    </div>
-  </aside>
-</main>
-<footer class="footer"><span>BEATBLOOM 3.1 · LOCAL-FIRST · NO TRACKING</span><span id="footerStatus">Unsaved session</span></footer>
-</div><div class="toast" id="toast"></div>
-<script>
-const trackDefs=[
- {id:'kick',name:'Kick',sub:'Deep pulse',icon:'K',tone:'#b8f05a'},
- {id:'snare',name:'Snare',sub:'Paper snap',icon:'S',tone:'#ff9f43'},
- {id:'hat',name:'Hi-hat',sub:'Silver air',icon:'H',tone:'#48cfe0'},
- {id:'clap',name:'Clap',sub:'Wide hands',icon:'C',tone:'#ff6b8a'},
- {id:'bass',name:'Bass',sub:'Soft mono',icon:'B',tone:'#9f7aea'},
- {id:'chord',name:'Chord',sub:'Dream poly',icon:'P',tone:'#6da8ff'}
-];
-const state={playing:false,step:0,nextNote:0,timer:null,bpm:118,swing:12,pattern:{},notes:['C2','C2','G1','C2','D#2','C2','G1','A#1','C2','C2','G1','C2','D#2','F2','G2','A#1'],muted:{},vol:{},scene:'custom'};
-trackDefs.forEach(t=>{state.pattern[t.id]=Array(16).fill(false);state.muted[t.id]=false;state.vol[t.id]=.8});
-const presets={house:{kick:[0,4,8,12],snare:[4,12],hat:[2,6,10,14],clap:[12],bass:[0,3,6,8,11,14],chord:[0,8]},chill:{kick:[0,7,10],snare:[4,12],hat:[2,6,10,14],clap:[4,12],bass:[0,3,8,11,14],chord:[0,6,10]},trap:{kick:[0,6,10,11],snare:[4,12],hat:[0,2,4,6,7,8,10,12,14,15],clap:[12],bass:[0,6,8,11,14],chord:[0,8]},disco:{kick:[0,4,8,12],snare:[4,12],hat:[2,6,10,14],clap:[4,12],bass:[0,2,5,7,8,10,13,15],chord:[0,4,8,12]}};
-let ctx,master,filter,delayNode,delayWet,reverb,reverbWet,analyser;
-function ensureAudio(){if(ctx){if(ctx.state==='suspended')ctx.resume();return} ctx=new(window.AudioContext||window.webkitAudioContext)(); master=ctx.createGain();filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=+el('filter').value;delayNode=ctx.createDelay(.8);delayNode.delayTime.value=.25;let fb=ctx.createGain();fb.gain.value=.25;delayWet=ctx.createGain();delayWet.gain.value=.16;reverb=ctx.createConvolver();reverb.buffer=impulse(2.2,2.6);reverbWet=ctx.createGain();reverbWet.gain.value=.22;analyser=ctx.createAnalyser();analyser.fftSize=128;filter.connect(master);filter.connect(delayNode);delayNode.connect(fb).connect(delayNode);delayNode.connect(delayWet).connect(master);filter.connect(reverb);reverb.connect(reverbWet).connect(master);master.connect(analyser).connect(ctx.destination);master.gain.value=.78;drawScope()}
-function impulse(seconds,decay){let len=ctx.sampleRate*seconds,b=ctx.createBuffer(2,len,ctx.sampleRate);for(let c=0;c<2;c++){let d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}return b}
-function out(){ensureAudio();return filter}
-function env(g,t,a,d,peak=.7){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+d)}
-function kick(t=ctx.currentTime){let o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.16);env(g,t,.002,.35,1);o.connect(g).connect(out());o.start(t);o.stop(t+.38)}
-function noise(t,d=.16,bright=1200,amt=.55){let b=ctx.createBuffer(1,ctx.sampleRate*d,ctx.sampleRate),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1;let s=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();s.buffer=b;f.type='highpass';f.frequency.value=bright;env(g,t,.001,d,amt);s.connect(f).connect(g).connect(out());s.start(t)}
-function snare(t=ctx.currentTime){noise(t,.19,900,.58);let o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=180;env(g,t,.001,.12,.3);o.connect(g).connect(out());o.start(t);o.stop(t+.14)}
-function hat(t=ctx.currentTime){noise(t,.055,6500,.24)} function clap(t=ctx.currentTime){[0,.018,.038].forEach(x=>noise(t+x,.09,1300,.22))}
-const freq=n=>{let m=/([A-G])(#?)(\d)/.exec(n),map={C:0,D:2,E:4,F:5,G:7,A:9,B:11},midi=(+m[3]+1)*12+map[m[1]]+(m[2]?1:0);return 440*Math.pow(2,(midi-69)/12)};
-function synth(note='C3',t=ctx.currentTime,d=.35,type='sine',amount=.32){let o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq(note);env(g,t,.012,d,amount);o.connect(g).connect(out());o.start(t);o.stop(t+d+.03)}
-function chord(t=ctx.currentTime,root='C3'){let f=freq(root);[1,1.25,1.5].forEach((r,i)=>{let o=ctx.createOscillator(),g=ctx.createGain();o.type=i?'triangle':'sine';o.frequency.value=f*r;env(g,t,.04,.72,.105);o.connect(g).connect(out());o.start(t);o.stop(t+.76)})}
-const players={kick,snare,hat,clap,bass:(t,i)=>synth(state.notes[i],t,.3,'sawtooth',.22),chord:(t,i)=>chord(t,state.notes[i].replace('2','3').replace('1','3'))};
-function el(id){return document.getElementById(id)}
-function build(){let box=el('tracks');trackDefs.forEach(t=>{let row=document.createElement('div');row.className='track';row.style.setProperty('--tone',t.tone);row.innerHTML=`<div class="track-info"><div class="track-icon">${t.icon}</div><div><div class="track-name">${t.name}</div><div class="track-sub">${t.sub}</div></div><button class="mini" data-mute="${t.id}" title="Mute">M</button></div>`+Array.from({length:16},(_,i)=>`<button class="step" data-track="${t.id}" data-step="${i}" aria-label="${t.name} step ${i+1}"></button>`).join('');box.appendChild(row)});renderSteps();
- let notes=el('notes');state.notes.forEach((n,i)=>{let s=document.createElement('select');s.className='note';s.dataset.note=i;['C1','D#1','F1','G1','A#1','C2','D#2','F2','G2','A#2'].forEach(x=>s.add(new Option(x,x,x===n,x===n)));notes.appendChild(s)});
- const pads=[['kick','Kick','Q'],['snare','Snare','W'],['hat','Hat','E'],['clap','Clap','R'],['bass','Bass','A'],['chord','Chord','S'],['fx1','Zap','D'],['fx2','Rise','F']];el('pads').innerHTML=pads.map((p,i)=>`<button class="pad" style="--tone:${trackDefs[i%6]?.tone||'#fff'}" data-pad="${p[0]}"><b>${p[1]}</b><small>${p[2]}</small></button>`).join('');
- let keys=[['C3','Z',0],['C#3','S',1],['D3','X',0],['D#3','D',1],['E3','C',0],['F3','V',0],['F#3','G',1],['G3','B',0],['G#3','H',1],['A3','N',0],['A#3','J',1],['B3','M',0]];el('keyboard').innerHTML=keys.map(k=>`<button class="key ${k[2]?'black':''}" data-key="${k[0]}">${k[1]}</button>`).join('')}
-function renderSteps(){document.querySelectorAll('.step').forEach(b=>b.classList.toggle('on',state.pattern[b.dataset.track][+b.dataset.step]))}
-function togglePlay(){ensureAudio();state.playing=!state.playing;el('play').textContent=state.playing?'❚❚':'▶';el('play').classList.toggle('active',state.playing);if(state.playing){state.nextNote=ctx.currentTime+.05;scheduler()}else clearTimeout(state.timer)}
-function stop(){state.playing=false;clearTimeout(state.timer);state.step=0;el('play').textContent='▶';el('play').classList.remove('active');document.querySelectorAll('.step').forEach(b=>b.classList.remove('playing'));el('time').textContent='01:01:000'}
-function scheduler(){if(!state.playing)return;let base=60/state.bpm/4;while(state.nextNote<ctx.currentTime+.1){let swing=(state.step%2?base*state.swing/100:0),t=state.nextNote+swing;trackDefs.forEach(tr=>{if(state.pattern[tr.id][state.step]&&!state.muted[tr.id])players[tr.id](t,state.step)});visualStep(state.step,t);state.nextNote+=base;state.step=(state.step+1)%16}state.timer=setTimeout(scheduler,25)}
-function visualStep(s,t){setTimeout(()=>{document.querySelectorAll('.step').forEach(b=>b.classList.toggle('playing',+b.dataset.step===s));let beat=Math.floor(s/4)+1,tick=(s%4)*250;el('time').textContent=`01:0${beat}:${String(tick).padStart(3,'0')}`},Math.max(0,(t-ctx.currentTime)*1000))}
-function hitPad(id,node){ensureAudio();if(players[id])players[id](ctx.currentTime,0);else fx(id);if(node){node.classList.add('hit');setTimeout(()=>node.classList.remove('hit'),110)}}
-function fx(id){if(id==='fx1'){for(let i=0;i<5;i++)synth(['C4','D#4','G4','A#4','C5'][i],ctx.currentTime+i*.045,.12,'square',.12)}else{for(let i=0;i<12;i++)synth(['C3','D3','E3','G3'][i%4],ctx.currentTime+i*.055,.1,'sawtooth',.08)}}
-function applyPreset(name){Object.keys(state.pattern).forEach(k=>state.pattern[k].fill(false));Object.entries(presets[name]||{}).forEach(([k,a])=>a.forEach(i=>state.pattern[k][i]=true));renderSteps();el('pattern').value=name;toast('گروو جدید آماده شد')}
-function randomize(){Object.keys(state.pattern).forEach(k=>state.pattern[k]=state.pattern[k].map((_,i)=>Math.random()<(k==='kick'?(i%4===0?.8:.16):k==='snare'?(i===4||i===12?.85:.08):k==='hat'?.44:k==='clap'?.12:.28)));renderSteps();el('pattern').value='custom';toast('یک ریتم تازه ساخته شد ✦')}
-function project(){return {version:1,bpm:state.bpm,swing:state.swing,pattern:state.pattern,notes:state.notes,muted:state.muted,vol:state.vol,fx:{filter:+el('filter').value,delay:+el('delay').value,space:+el('space').value,master:+el('master').value}}}
-function restore(p){if(!p||!p.pattern)return;Object.assign(state.pattern,p.pattern);state.notes=p.notes||state.notes;state.muted=p.muted||state.muted;state.bpm=p.bpm||118;state.swing=p.swing||0;el('bpm').value=state.bpm;el('swing').value=state.swing;Object.entries(p.fx||{}).forEach(([k,v])=>{if(el(k))el(k).value=v});document.querySelectorAll('[data-note]').forEach(s=>s.value=state.notes[+s.dataset.note]);renderSteps();syncFx();toast('پروژه بارگذاری شد')}
-function save(){localStorage.setItem('beatbloom-project',JSON.stringify(project()));el('footerStatus').textContent='Saved locally · '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});toast('پروژه روی همین دستگاه ذخیره شد')}
-function download(name,text,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function syncFx(){if(!ctx)return;filter.frequency.setTargetAtTime(+el('filter').value,ctx.currentTime,.03);delayWet.gain.setTargetAtTime(+el('delay').value/100,ctx.currentTime,.03);reverbWet.gain.setTargetAtTime(+el('space').value/100,ctx.currentTime,.03);master.gain.setTargetAtTime(+el('master').value/100,ctx.currentTime,.03)}
-async function exportWav(){toast('در حال ساخت WAV…');let bpm=state.bpm,seconds=state.length*(60/bpm/4)+1,sr=44100,off=new OfflineAudioContext(2,Math.ceil(seconds*sr),sr),dest=off.createGain();dest.gain.value=.8;dest.connect(off.destination);function oe(g,t,a,d,p){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(p,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+d)}function on(t,d=.12,hp=1000,a=.4){let b=off.createBuffer(1,Math.ceil(sr*d),sr),x=b.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1;let s=off.createBufferSource(),f=off.createBiquadFilter(),g=off.createGain();s.buffer=b;f.type='highpass';f.frequency.value=hp;oe(g,t,.001,d,a);s.connect(f).connect(g).connect(dest);s.start(t)}function oo(fr,t,d=.3,type='sine',a=.25){let o=off.createOscillator(),g=off.createGain();o.type=type;o.frequency.value=fr;oe(g,t,.005,d,a);o.connect(g).connect(dest);o.start(t);o.stop(t+d+.02)}for(let i=0;i<state.length;i++){let t=i*60/bpm/4;for(let tr of trackDefs){if(!state.pattern[tr.id][i]||state.muted[tr.id])continue;if(tr.id==='kick'){let o=off.createOscillator(),g=off.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.16);oe(g,t,.002,.35,1);o.connect(g).connect(dest);o.start(t);o.stop(t+.38)}else if(tr.id==='snare'){on(t,.19,900,.55);oo(180,t,.12,'triangle',.22)}else if(tr.id==='hat')on(t,.055,6500,.22);else if(tr.id==='clap')[0,.018,.038].forEach(x=>on(t+x,.08,1300,.2));else if(tr.id==='bass')oo(freq(state.notes[i]),t,.3,'sawtooth',.2);else [1,1.25,1.5].forEach(r=>oo(freq(state.notes[i].replace('2','3').replace('1','3'))*r,t,.65,'triangle',.09))}}let buffer=await off.startRendering(),wav=encodeWav(buffer);download('beatbloom-loop.wav',wav,'audio/wav');toast('فایل WAV آماده شد')}
-function encodeWav(b){let ch=b.numberOfChannels,len=b.length*ch*2,ab=new ArrayBuffer(44+len),v=new DataView(ab),p=0;let w=s=>{for(let c of s)v.setUint8(p++,c.charCodeAt(0))};w('RIFF');v.setUint32(p,36+len,true);p+=4;w('WAVEfmt ');v.setUint32(p,16,true);p+=4;v.setUint16(p,1,true);p+=2;v.setUint16(p,ch,true);p+=2;v.setUint32(p,b.sampleRate,true);p+=4;v.setUint32(p,b.sampleRate*ch*2,true);p+=4;v.setUint16(p,ch*2,true);p+=2;v.setUint16(p,16,true);p+=2;w('data');v.setUint32(p,len,true);p+=4;for(let i=0;i<b.length;i++)for(let c=0;c<ch;c++){let s=Math.max(-1,Math.min(1,b.getChannelData(c)[i]));v.setInt16(p,s<0?s*32768:s*32767,true);p+=2}return ab}
-function drawIdle(){let canvas=el('scope'),c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<36;i++){let h=12+Math.sin(i*.72)*10+((i*17)%29);c.fillStyle=i>26?'#48cfe0':'#b8f05a';c.globalAlpha=.22+i/90;c.fillRect(i*(canvas.width/36),canvas.height-h,8,h)}}function drawScope(){let canvas=el('scope'),c=canvas.getContext('2d'),arr=new Uint8Array(analyser.frequencyBinCount);(function draw(){requestAnimationFrame(draw);analyser.getByteFrequencyData(arr);c.clearRect(0,0,canvas.width,canvas.height);let w=canvas.width/arr.length;for(let i=0;i<arr.length;i++){let h=Math.max(6,arr[i]/255*canvas.height);c.fillStyle=i>arr.length*.72?'#48cfe0':'#b8f05a';c.globalAlpha=.45+i/arr.length*.45;c.fillRect(i*w,canvas.height-h,w-3,h)}})()}
-let toastTimer;function toast(s){let t=el('toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800)}
-build();Object.entries(presets.house).forEach(([k,a])=>a.forEach(i=>state.pattern[k][i]=true));renderSteps();el('pattern').value='house';drawIdle();
-el('tracks').onclick=e=>{let b=e.target.closest('.step');if(b){let k=b.dataset.track,i=+b.dataset.step;state.pattern[k][i]=!state.pattern[k][i];b.classList.toggle('on');ensureAudio();if(state.pattern[k][i])players[k](ctx.currentTime,i)}let m=e.target.closest('[data-mute]');if(m){let k=m.dataset.mute;state.muted[k]=!state.muted[k];m.classList.toggle('on',state.muted[k]);m.textContent=state.muted[k]?'×':'M'}};
-el('notes').onchange=e=>{state.notes[+e.target.dataset.note]=e.target.value};el('pads').onclick=e=>{let p=e.target.closest('.pad');if(p)hitPad(p.dataset.pad,p)};el('keyboard').onpointerdown=e=>{let k=e.target.closest('.key');if(k){synth(k.dataset.key,undefined,.5,'triangle',.3);k.classList.add('active')}};window.onpointerup=()=>document.querySelectorAll('.key').forEach(k=>k.classList.remove('active'));
-el('play').onclick=togglePlay;el('stop').onclick=stop;el('randomize').onclick=randomize;el('pattern').onchange=e=>e.target.value!=='custom'&&applyPreset(e.target.value);el('bpm').onchange=e=>state.bpm=Math.max(60,Math.min(190,+e.target.value||118));el('swing').oninput=e=>state.swing=+e.target.value;
-['filter','delay','space','master'].forEach(id=>el(id).oninput=()=>{ensureAudio();syncFx();el(id+'V').textContent=id==='filter'?(+el(id).value/1000).toFixed(1)+'k':el(id).value+'%'});
-document.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{let s=b.dataset.scene,v={sunset:[5200,22,38],club:[10500,9,12],space:[3200,34,58],dry:[14000,0,0]}[s];['filter','delay','space'].forEach((k,i)=>el(k).value=v[i]);ensureAudio();syncFx();['filter','delay','space'].forEach(k=>el(k+'V').textContent=k==='filter'?(+el(k).value/1000).toFixed(1)+'k':el(k).value+'%');toast(b.textContent.trim()+' فعال شد')});
-el('save').onclick=save;el('load').onclick=()=>{let p=localStorage.getItem('beatbloom-project');p?restore(JSON.parse(p)):toast('هنوز پروژه‌ای ذخیره نشده')};el('downloadJson').onclick=()=>download('beatbloom-project.json',JSON.stringify(project(),null,2),'application/json');el('importJson').onchange=async e=>{try{restore(JSON.parse(await e.target.files[0].text()))}catch{toast('فایل پروژه معتبر نیست')}};el('export').onclick=exportWav;
-const drumKeys={q:'kick',w:'snare',e:'hat',r:'clap',a:'bass',s:'chord',d:'fx1',f:'fx2'},pianoKeys={z:'C3',s:'C#3',x:'D3',d:'D#3',c:'E3',v:'F3',g:'F#3',b:'G3',h:'G#3',n:'A3',j:'A#3',m:'B3'};window.addEventListener('keydown',e=>{if(e.repeat||['INPUT','SELECT'].includes(e.target.tagName))return;let k=e.key.toLowerCase();if(e.code==='Space'){e.preventDefault();togglePlay()}else if(drumKeys[k]&&!e.shiftKey){let p=document.querySelector(`[data-pad="${drumKeys[k]}"]`);hitPad(drumKeys[k],p)}else if(pianoKeys[k]){ensureAudio();synth(pianoKeys[k]);document.querySelector(`[data-key="${pianoKeys[k]}"]`)?.classList.add('active')}});window.addEventListener('keyup',()=>document.querySelectorAll('.key').forEach(k=>k.classList.remove('active')));
-</script>
-
-<style>
-/* BeatBloom 2 additions */
-.iconbtn.record{color:#ff7a7a}.iconbtn.record.active{background:#ff5f65;color:white;border-color:#ff5f65;box-shadow:0 0 24px rgba(255,95,101,.28)}
-.loop-tools{display:flex;gap:7px;align-items:center;margin-left:auto}.loop-tools .select{height:34px;padding:5px 8px}.track.disabled{opacity:.38}.track.disabled .step{pointer-events:none}.track-power{font-size:14px}.keyboard{overflow-x:auto;min-width:0}.keyboard-inner{display:flex;min-width:820px;width:100%;height:100%}.key{min-width:42px}.key.black{min-width:25px}.rec-hint{color:#ff7a7a!important}.step.recorded{animation:recflash .35s ease}@keyframes recflash{50%{transform:scale(1.16);box-shadow:0 0 22px #ff5f65}}@media(max-width:700px){.topbar{gap:8px}.brand{min-width:132px}.loop-tools{margin-left:0}.cardhead{flex-wrap:wrap}.pattern-select{margin-left:0}.keyboard-inner{min-width:900px}}
-</style>
-<script>
-// BeatBloom 2.0 — expanded instruments, variable loop and live step recording
-state.length=16;state.recording=false;
-const extraTracks=[
-{id:'tom',name:'Tom',sub:'Round drum',icon:'T',tone:'#f2c14e'},
-{id:'shaker',name:'Shaker',sub:'Bright sand',icon:'Š',tone:'#55d6be'},
-{id:'cowbell',name:'Cowbell',sub:'Metal tick',icon:'Ω',tone:'#ff7f50'},
-{id:'perc',name:'Perc',sub:'Wood click',icon:'•',tone:'#e879f9'},
-{id:'lead',name:'Lead',sub:'Neon voice',icon:'L',tone:'#38bdf8'},
-{id:'pluck',name:'Pluck',sub:'Glass string',icon:'✦',tone:'#f472b6'}];
-extraTracks.forEach(t=>{if(!trackDefs.some(x=>x.id===t.id))trackDefs.push(t);state.pattern[t.id]=Array(32).fill(false);state.muted[t.id]=false;state.vol[t.id]=.8});
-Object.keys(state.pattern).forEach(k=>{while(state.pattern[k].length<32)state.pattern[k].push(false)});
-while(state.notes.length<32)state.notes.push(state.notes[state.notes.length%16]||'C2');
-function tom(t=ctx.currentTime){let o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(190,t);o.frequency.exponentialRampToValueAtTime(78,t+.24);env(g,t,.002,.38,.55);o.connect(g).connect(out());o.start(t);o.stop(t+.4)}
-function shaker(t=ctx.currentTime){noise(t,.11,4200,.2)}
-function cowbell(t=ctx.currentTime){[540,810].forEach((f,i)=>{let o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=f;env(g,t,.002,.18,i?.09:.13);o.connect(g).connect(out());o.start(t);o.stop(t+.2)})}
-function perc(t=ctx.currentTime){let o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(620,t);o.frequency.exponentialRampToValueAtTime(240,t+.08);env(g,t,.001,.13,.22);o.connect(g).connect(out());o.start(t);o.stop(t+.15)}
-players.tom=tom;players.shaker=shaker;players.cowbell=cowbell;players.perc=perc;players.lead=(t,i)=>synth((state.notes[i]||'C2').replace('1','3').replace('2','4'),t,.42,'square',.13);players.pluck=(t,i)=>synth((state.notes[i]||'C2').replace('1','4').replace('2','4'),t,.2,'triangle',.22);
-Object.assign(presets,{
- funk:{kick:[0,3,7,10,12],snare:[4,12],hat:[0,2,4,6,8,10,12,14],clap:[12],bass:[0,3,5,7,10,13],chord:[0,6,10],cowbell:[2,6,10,14],perc:[5,15]},
- afro:{kick:[0,3,6,10,13],snare:[4,12],hat:[2,5,8,11,14],shaker:[0,2,4,6,8,10,12,14],tom:[7,11,15],perc:[1,5,9,13],bass:[0,6,10,13]},
- ambient:{kick:[0,8],hat:[6,14],bass:[0,7,12],chord:[0,8],lead:[3,11,15],pluck:[2,6,10,14]},
- dnb:{kick:[0,6,10],snare:[4,12],hat:[0,2,4,6,8,10,12,14],shaker:[1,3,5,7,9,11,13,15],bass:[0,3,7,10,14],lead:[6,15]},
- arcade:{kick:[0,4,8,12],snare:[4,12],hat:[2,6,10,14],bass:[0,2,5,8,10,13],lead:[0,3,6,9,12,15],pluck:[1,5,9,13]},
- latin:{kick:[0,6,10],snare:[4,12],clap:[4,12],shaker:[0,2,4,6,8,10,12,14],cowbell:[3,7,11,15],perc:[1,5,9,13],tom:[6,14],bass:[0,5,8,11,14]}
-});
-function v2Build(){
- const box=el('tracks');box.innerHTML='';
- const width=160+state.length*36;el('tracks').parentElement.style.minWidth=Math.max(770,width)+'px';
- trackDefs.forEach(t=>{let row=document.createElement('div');row.className='track'+(state.muted[t.id]?' disabled':'');row.style.setProperty('--tone',t.tone);row.style.gridTemplateColumns=`160px repeat(${state.length},minmax(28px,1fr))`;row.innerHTML=`<div class="track-info"><div class="track-icon">${t.icon}</div><div><div class="track-name">${t.name}</div><div class="track-sub">${t.sub}</div></div><button class="mini track-power ${state.muted[t.id]?'':'on'}" data-mute="${t.id}" title="فعال/غیرفعال">⏻</button></div>`+Array.from({length:state.length},(_,i)=>`<button class="step" data-track="${t.id}" data-step="${i}" aria-label="${t.name} step ${i+1}"></button>`).join('');box.appendChild(row)});
- const notes=el('notes');notes.innerHTML='<div>MELODY NOTES</div>';notes.style.gridTemplateColumns=`160px repeat(${state.length},minmax(28px,1fr))`;for(let i=0;i<state.length;i++){let sel=document.createElement('select');sel.className='note';sel.dataset.note=i;['C1','D#1','F1','G1','A#1','C2','D#2','F2','G2','A#2'].forEach(x=>sel.add(new Option(x,x,x===state.notes[i],x===state.notes[i])));notes.appendChild(sel)}renderSteps();
-}
-build=v2Build;
-scheduler=function(){if(!state.playing)return;let base=60/state.bpm/4;while(state.nextNote<ctx.currentTime+.1){let swing=(state.step%2?base*state.swing/100:0),t=state.nextNote+swing;trackDefs.forEach(tr=>{if(state.pattern[tr.id]?.[state.step]&&!state.muted[tr.id])players[tr.id]?.(t,state.step)});visualStep(state.step,t);state.nextNote+=base;state.step=(state.step+1)%state.length}state.timer=setTimeout(scheduler,25)};
-const oldHitPad=hitPad;hitPad=function(id,node){oldHitPad(id,node);if(state.recording&&state.pattern[id])recordStep(id)};
-function recordStep(id,note){let i=(state.step+state.length-1)%state.length;state.pattern[id][i]=true;if(note)state.notes[i]=note.replace(/[3-7]/,'2');let b=document.querySelector(`.step[data-track="${id}"][data-step="${i}"]`);if(b){b.classList.add('on','recorded');setTimeout(()=>b.classList.remove('recorded'),360)}}
-function resizeLoop(n){n=+n;state.length=n;Object.keys(state.pattern).forEach(k=>{while(state.pattern[k].length<n)state.pattern[k].push(false)});while(state.notes.length<n)state.notes.push(state.notes[state.notes.length%16]||'C2');state.step%=n;v2Build();el('stepCount').textContent=`${n} steps · ${n/16} bar${n===16?'':'s'}`;toast(`طول لوپ روی ${n} مرحله تنظیم شد`)}
-function clearPattern(){Object.keys(state.pattern).forEach(k=>state.pattern[k].fill(false));renderSteps();el('pattern').value='custom';toast('همه‌ی نت‌ها پاک شدند')}
-// Add upgraded transport controls
-const rec=document.createElement('button');rec.id='record';rec.className='iconbtn record';rec.title='ضبط اجرای زنده داخل لوپ';rec.setAttribute('aria-label','ضبط');rec.textContent='●';el('stop').after(rec);rec.onclick=()=>{ensureAudio();state.recording=!state.recording;rec.classList.toggle('active',state.recording);if(state.recording&&!state.playing)togglePlay();toast(state.recording?'ضبط روشن شد — حالا بنواز':'ضبط متوقف شد')};
-const clear=document.createElement('button');clear.id='clear';clear.className='action';clear.innerHTML='⌫ <span class="wide">Clear</span>';clear.onclick=clearPattern;el('randomize').before(clear);
-const head=document.querySelector('.sequencer .cardhead');head.querySelector('span').id='stepCount';
-const loop=document.createElement('select');loop.id='loopLength';loop.className='select';loop.setAttribute('aria-label','طول لوپ');[8,16,24,32].forEach(n=>loop.add(new Option(n+' steps',n,n===16,n===16)));loop.onchange=e=>resizeLoop(e.target.value);head.insertBefore(loop,el('pattern'));
-[['funk','Midnight Funk'],['afro','Afro Garden'],['ambient','Cloud Ambient'],['dnb','Pocket DnB'],['arcade','Pixel Arcade'],['latin','Latin Spark']].forEach(([v,t])=>el('pattern').add(new Option(t,v)));
-// More performance pads
-const padData=[['kick','Kick','Q'],['snare','Snare','W'],['hat','Hat','E'],['clap','Clap','R'],['tom','Tom','T'],['shaker','Shaker','Y'],['cowbell','Cowbell','U'],['perc','Perc','I'],['bass','Bass','A'],['chord','Chord','S'],['lead','Lead','D'],['pluck','Pluck','F']];
-el('pads').innerHTML=padData.map((p,i)=>`<button class="pad" style="--tone:${trackDefs.find(t=>t.id===p[0])?.tone||'#fff'}" data-pad="${p[0]}"><b>${p[1]}</b><small>${p[2]}</small></button>`).join('');
-// Two-octave piano
-const keyNames=['C3','C#3','D3','D#3','E3','F3','F#3','G3','G#3','A3','A#3','B3','C4','C#4','D4','D#4','E4','F4','F#4','G4','G#4','A4','A#4','B4','C5'];
-el('keyboard').innerHTML='<div class="keyboard-inner">'+keyNames.map((n,i)=>`<button class="key ${n.includes('#')?'black':''}" data-key="${n}">${n.replace(/[0-9]/,'')}</button>`).join('')+'</div>';
-el('keyboard').addEventListener('pointerdown',e=>{let k=e.target.closest('.key');if(k&&state.recording)recordStep('lead',k.dataset.key)},true);
-// Fix mute visuals and make power state obvious
-el('tracks').addEventListener('click',e=>{let m=e.target.closest('[data-mute]');if(m)setTimeout(()=>{let row=m.closest('.track');row.classList.toggle('disabled',state.muted[m.dataset.mute]);m.classList.toggle('on',!state.muted[m.dataset.mute]);m.textContent='⏻'},0)},true);
-// Extra pad keyboard shortcuts
-const extraPadKeys={t:'tom',y:'shaker',u:'cowbell',i:'perc'};window.addEventListener('keydown',e=>{if(e.repeat||['INPUT','SELECT'].includes(e.target.tagName))return;let id=extraPadKeys[e.key.toLowerCase()];if(id)hitPad(id,document.querySelector(`[data-pad="${id}"]`))});
-// Save v2 settings
-const oldProject=project;project=function(){let p=oldProject();p.version=2;p.length=state.length;p.recording=false;return p};
-const oldRestore=restore;restore=function(p){oldRestore(p);if(p.length)resizeLoop(p.length);v2Build()};
-// Initialize expanded UI
-v2Build();
-</script>
-
-<style>
-/* BeatBloom 3 — collision-free instrument and sampler UI */
-.track-icon{font-size:10px;letter-spacing:-.3px}.mini.track-power{display:grid;place-items:center;font-size:12px;line-height:1}.mini.track-power.on{color:#111}
-.keyboard{height:164px;overflow-x:auto;overflow-y:hidden;padding:12px}.keyboard-inner{display:flex;min-width:max-content;width:max-content;gap:4px;height:100%}.keyboard-inner .key,.keyboard-inner .key.black{position:relative;flex:0 0 48px;min-width:48px;height:100%;margin:0;border-radius:7px;background:#f4f4f0;color:#12141a;border:1px solid #d7d9df;padding:0 0 10px;z-index:1}.keyboard-inner .key.black{height:72%;background:#151820;color:#fff;border-color:#343a49}.keyboard-inner .key:hover{border-color:var(--lime)}
-.instrument-tabs{margin-left:auto;display:flex;gap:6px}.tabbtn{border:1px solid var(--line);background:#11141a;color:var(--muted);border-radius:7px;padding:7px 10px;cursor:pointer;font-size:11px}.tabbtn.active{background:var(--lime);border-color:var(--lime);color:#111}.guitarboard{padding:14px;display:none;gap:6px;overflow-x:auto}.guitarboard.active{display:grid}.guitar-string{display:grid;grid-template-columns:42px repeat(9,52px);gap:4px;min-width:max-content;align-items:center}.string-name{font-size:10px;color:var(--muted);text-align:center}.fret{height:34px;border:1px solid #505665;border-radius:5px;background:linear-gradient(#392a21,#231a16);color:#e9d7bd;font-size:9px;cursor:pointer;position:relative}.fret:after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#d7c2a4;opacity:.7}.fret span{position:relative;z-index:1;background:#2a201a;padding:1px 3px;border-radius:3px}.fret:hover,.fret.active{border-color:var(--lime);color:var(--lime)}
-.sampler-card{margin-top:16px}.sampler-body{padding:14px;display:grid;grid-template-columns:220px 1fr;gap:14px}.sample-controls{display:flex;flex-direction:column;gap:8px}.sample-controls .action{min-height:42px}.sample-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.sample-slot{border:1px solid var(--line);background:#11141a;border-radius:10px;padding:10px;min-height:96px;display:grid;grid-template-rows:auto 1fr auto;gap:8px}.sample-slot.selected{border-color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime)}.slot-top{display:flex;align-items:center;justify-content:space-between}.slot-num{width:25px;height:25px;border-radius:7px;background:#272c38;display:grid;place-items:center;font-size:11px;font-weight:800}.slot-name{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.slot-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.slot-actions button{min-height:34px;border:1px solid var(--line);background:#1c202a;border-radius:7px;color:#fff;cursor:pointer;font-size:10px}.slot-actions button.on{background:var(--lime);color:#111;border-color:var(--lime)}.mic-live{background:#ff5f65!important;border-color:#ff5f65!important;color:#fff!important}.shortcut-note{font-size:10px;color:var(--muted);line-height:1.5}.timer-zero{color:var(--lime)}
-@media(max-width:900px){.sampler-body{grid-template-columns:1fr}.sample-controls{display:grid;grid-template-columns:1fr 1fr}.sample-slots{grid-template-columns:1fr 1fr}}@media(max-width:520px){.sample-slots{grid-template-columns:1fr}.instrument-tabs{width:100%;margin-left:0}.cardhead{align-items:flex-start}.keyboard-inner .key,.keyboard-inner .key.black{flex-basis:46px;min-width:46px}}
-</style>
-<script>
-// Normalize icons and add dedicated Guitar + Sample lanes
-const iconMap={kick:'K',snare:'S',hat:'HH',clap:'CL',bass:'B',chord:'CH',tom:'T',shaker:'SH',cowbell:'CB',perc:'PC',lead:'LD',pluck:'PL'};
-trackDefs.forEach(t=>t.icon=iconMap[t.id]||t.icon);
-if(!trackDefs.some(t=>t.id==='guitar'))trackDefs.push({id:'guitar',name:'Guitar',sub:'Picked strings',icon:'GT',tone:'#d8a15d'});
-if(!trackDefs.some(t=>t.id==='sample'))trackDefs.push({id:'sample',name:'Sample',sub:'Voice / audio slot',icon:'SP',tone:'#a3e635'});
-['guitar','sample'].forEach(id=>{state.pattern[id]=Array(32).fill(false);state.muted[id]=false;state.vol[id]=.8});
-state.guitarNotes=Array(32).fill('E3');state.activeSample=0;
-function guitarPluck(note='E3',t=null,d=.75){ensureAudio();t=t??ctx.currentTime;let o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain(),f=ctx.createBiquadFilter();o.type='triangle';o2.type='sine';o.frequency.value=freq(note);o2.frequency.value=freq(note)*2.01;f.type='lowpass';f.frequency.value=2400;env(g,t,.003,d,.24);o.connect(f);o2.connect(f);f.connect(g).connect(out());o.start(t);o2.start(t);o.stop(t+d+.03);o2.stop(t+d+.03)}
-players.guitar=(t,i)=>guitarPluck(state.guitarNotes[i]||'E3',t,.65);
-const sampleSlots=Array.from({length:4},()=>({buffer:null,blob:null,name:'Empty slot',loop:false,source:null}));
-function playSample(index=state.activeSample){ensureAudio();let s=sampleSlots[index];if(!s.buffer){toast('اول یک صدا ضبط یا وارد کن');return}if(s.source){try{s.source.stop()}catch{}s.source=null;renderSampler();return}let src=ctx.createBufferSource();src.buffer=s.buffer;src.loop=s.loop;src.connect(out());src.onended=()=>{if(s.source===src){s.source=null;renderSampler()}};src.start();if(s.loop)s.source=src;renderSampler()}
-players.sample=()=>{let s=sampleSlots[state.activeSample];if(!s?.buffer)return;let src=ctx.createBufferSource();src.buffer=s.buffer;src.loop=false;src.connect(out());src.start()};
-// Accurate zero-based transport display
-visualStep=function(s,t){setTimeout(()=>{document.querySelectorAll('.step').forEach(b=>b.classList.toggle('playing',+b.dataset.step===s));let elapsed=s*(60/state.bpm/4),mins=Math.floor(elapsed/60),secs=Math.floor(elapsed%60),ms=Math.floor((elapsed%1)*1000);el('time').textContent=`${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}:${String(ms).padStart(3,'0')}`},Math.max(0,(t-ctx.currentTime)*1000))};
-stop=function(){state.playing=false;clearTimeout(state.timer);state.step=0;el('play').textContent='▶';el('play').classList.remove('active');document.querySelectorAll('.step').forEach(b=>b.classList.remove('playing'));el('time').textContent='00:00:000'};el('stop').onclick=stop;el('time').textContent='00:00:000';
-// Templates repeat musically for every selected loop size
-const baseApplyPreset=applyPreset;
-applyPreset=function(name){Object.keys(state.pattern).forEach(k=>state.pattern[k].fill(false));let src=presets[name]||{};for(let offset=0;offset<state.length;offset+=16)Object.entries(src).forEach(([k,a])=>{if(!state.pattern[k])return;a.forEach(i=>{let at=offset+i;if(at<state.length)state.pattern[k][at]=true})});renderSteps();el('pattern').value=name;toast(`${name} روی ${state.length} مرحله چیده شد`)};
-resizeLoop=function(n){n=+n;state.length=n;Object.keys(state.pattern).forEach(k=>{while(state.pattern[k].length<n)state.pattern[k].push(false)});while(state.notes.length<n)state.notes.push(state.notes[state.notes.length%16]||'C2');while(state.guitarNotes.length<n)state.guitarNotes.push('E3');state.step%=n;v2Build();v3DecorateTracks();el('stepCount').textContent=`${n} steps · ${n/16} bar${n===16?'':'s'}`;let preset=el('pattern').value;if(preset!=='custom')applyPreset(preset);else toast(`طول لوپ روی ${n} مرحله تنظیم شد`)};
-el('loopLength').onchange=e=>resizeLoop(e.target.value);
-// Refresh track UI after V2's renderer
-const baseV2Build=v2Build;
-v2Build=function(){baseV2Build();v3DecorateTracks()};build=v2Build;
-function v3DecorateTracks(){document.querySelectorAll('.track').forEach(row=>{let id=row.querySelector('[data-mute]')?.dataset.mute,ic=row.querySelector('.track-icon');if(ic&&id)ic.textContent=(trackDefs.find(t=>t.id===id)?.icon||id.slice(0,2)).toUpperCase()})}
-// Instrument Lab tabs
-const keyCard=el('keyboard').closest('.card'),keyHead=keyCard.querySelector('.cardhead');keyHead.querySelector('span').textContent='Z–M · Shift = next octave';
-const tabs=document.createElement('div');tabs.className='instrument-tabs';tabs.innerHTML='<button class="tabbtn active" data-inst="piano">Piano</button><button class="tabbtn" data-inst="guitar">Guitar</button>';keyHead.appendChild(tabs);
-const guitar=document.createElement('div');guitar.id='guitarboard';guitar.className='guitarboard';keyCard.appendChild(guitar);
-const chrom=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];function midiNote(m){return chrom[m%12]+(Math.floor(m/12)-1)}
-const strings=[['E2',40],['A2',45],['D3',50],['G3',55],['B3',59],['E4',64]];guitar.innerHTML=strings.map(([label,m])=>`<div class="guitar-string"><div class="string-name">${label}</div>${Array.from({length:9},(_,f)=>{let n=midiNote(m+f);return `<button class="fret" data-guitar="${n}"><span>${f||'open'}</span></button>`}).join('')}</div>`).join('');
-tabs.onclick=e=>{let b=e.target.closest('[data-inst]');if(!b)return;tabs.querySelectorAll('.tabbtn').forEach(x=>x.classList.toggle('active',x===b));let isG=b.dataset.inst==='guitar';el('keyboard').style.display=isG?'none':'flex';guitar.classList.toggle('active',isG)};
-guitar.onpointerdown=e=>{let f=e.target.closest('[data-guitar]');if(!f)return;guitarPluck(f.dataset.guitar);f.classList.add('active');setTimeout(()=>f.classList.remove('active'),160);if(state.recording){let i=(state.step+state.length-1)%state.length;state.guitarNotes[i]=f.dataset.guitar;recordStep('guitar')}};
-// Collision-free keyboard rendering with labels and Shift octave hint
-const keyLabel=['Z','S','X','D','C','V','G','B','H','N','J','M'];el('keyboard').innerHTML='<div class="keyboard-inner">'+keyNames.map((n,i)=>`<button class="key ${n.includes('#')?'black':''}" data-key="${n}" title="${n}">${n}<small style="display:block;opacity:.55">${keyLabel[i%12]}${i>=12?' + ⇧':''}</small></button>`).join('')+'</div>';
-// Shift+Z…M plays the higher octave without triggering pad shortcuts
-const shiftMap={z:'C4',s:'C#4',x:'D4',d:'D#4',c:'E4',v:'F4',g:'F#4',b:'G4',h:'G#4',n:'A4',j:'A#4',m:'B4'};window.addEventListener('keydown',e=>{if(!e.shiftKey||e.repeat||['INPUT','SELECT'].includes(e.target.tagName))return;let note=shiftMap[e.key.toLowerCase()];if(!note)return;e.preventDefault();e.stopImmediatePropagation();ensureAudio();synth(note,undefined,.5,'triangle',.3);document.querySelector(`[data-key="${note}"]`)?.classList.add('active');if(state.recording)recordStep('lead',note)},true);
-// Sampler deck: microphone, upload, persistent slots, one-shot or loop mode
-const sampler=document.createElement('div');sampler.className='card sampler-card';sampler.innerHTML=`<div class="cardhead"><h2>Voice & Sample Deck</h2><span>Record, import, assign and loop</span></div><div class="sampler-body"><div class="sample-controls"><button class="action" id="micRecord">● Record microphone</button><label class="action" style="cursor:pointer">↑ Import audio<input class="sr" id="sampleUpload" type="file" accept="audio/*"></label><button class="action" id="sampleStop">■ Stop all samples</button><div class="shortcut-note">کلیدهای 1 تا 4 اسلات‌ها را پخش می‌کنند. حالت One-shot با هر کلیک یک‌بار پخش می‌شود؛ Loop تا کلیک بعدی ادامه دارد.</div></div><div class="sample-slots" id="sampleSlots"></div></div>`;document.querySelector('.bottom-grid').after(sampler);
-function renderSampler(){el('sampleSlots').innerHTML=sampleSlots.map((s,i)=>`<div class="sample-slot ${i===state.activeSample?'selected':''}" data-slot="${i}"><div class="slot-top"><span class="slot-num">${i+1}</span><button class="mini" data-select-slot="${i}" title="انتخاب برای ردیف Sample">${i===state.activeSample?'✓':'+'}</button></div><div class="slot-name">${s.name}</div><div class="slot-actions"><button data-play-slot="${i}">${s.source?'Stop':'Play'}</button><button class="${s.loop?'on':''}" data-loop-slot="${i}">${s.loop?'Loop':'1-shot'}</button></div></div>`).join('')}
-renderSampler();
-el('sampleSlots').onclick=e=>{let a=e.target.closest('[data-play-slot]'),l=e.target.closest('[data-loop-slot]'),q=e.target.closest('[data-select-slot]');if(a){let i=+a.dataset.playSlot;state.activeSample=i;playSample(i);if(state.recording)recordStep('sample')}if(l){let i=+l.dataset.loopSlot;sampleSlots[i].loop=!sampleSlots[i].loop;renderSampler()}if(q){state.activeSample=+q.dataset.selectSlot;renderSampler();toast(`اسلات ${state.activeSample+1} به ردیف Sample وصل شد`)}};
-async function setSample(i,blob,name){ensureAudio();try{let ab=await blob.arrayBuffer();sampleSlots[i].buffer=await ctx.decodeAudioData(ab.slice(0));sampleSlots[i].blob=blob;sampleSlots[i].name=name||`Sample ${i+1}`;await saveSample(i,blob,sampleSlots[i].name);renderSampler();toast(`صدا در اسلات ${i+1} آماده شد`)}catch{toast('این فایل صوتی قابل خواندن نیست')}}
-el('sampleUpload').onchange=e=>{let f=e.target.files?.[0];if(f)setSample(state.activeSample,f,f.name)};
-let mediaRecorder,micChunks=[],micStream;el('micRecord').onclick=async()=>{if(mediaRecorder?.state==='recording'){mediaRecorder.stop();return}try{ensureAudio();micStream=await navigator.mediaDevices.getUserMedia({audio:true});micChunks=[];mediaRecorder=new MediaRecorder(micStream);mediaRecorder.ondataavailable=e=>{if(e.data.size)micChunks.push(e.data)};mediaRecorder.onstop=async()=>{let blob=new Blob(micChunks,{type:mediaRecorder.mimeType||'audio/webm'});micStream.getTracks().forEach(t=>t.stop());el('micRecord').classList.remove('mic-live');el('micRecord').textContent='● Record microphone';await setSample(state.activeSample,blob,`Voice ${new Date().toLocaleTimeString()}`)};mediaRecorder.start();el('micRecord').classList.add('mic-live');el('micRecord').textContent='■ Stop & assign';toast(`در حال ضبط برای اسلات ${state.activeSample+1}`)}catch{toast('دسترسی میکروفن ممکن نشد؛ برنامه را روی localhost اجرا کن')}};
-el('sampleStop').onclick=()=>{sampleSlots.forEach(s=>{if(s.source){try{s.source.stop()}catch{}s.source=null}});renderSampler()};
-window.addEventListener('keydown',e=>{if(['INPUT','SELECT'].includes(e.target.tagName)||e.repeat)return;let i=+e.key-1;if(i>=0&&i<4){state.activeSample=i;playSample(i);if(state.recording)recordStep('sample')}});
-// IndexedDB persistence for public/local use
-function sampleDB(){return new Promise((res,rej)=>{let r=indexedDB.open('beatbloom-samples',1);r.onupgradeneeded=()=>r.result.createObjectStore('slots');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
-async function saveSample(i,blob,name){let db=await sampleDB();let tx=db.transaction('slots','readwrite');tx.objectStore('slots').put({blob,name},i);return new Promise(r=>tx.oncomplete=r)}
-(async()=>{try{let db=await sampleDB();let tx=db.transaction('slots');for(let i=0;i<4;i++){let req=tx.objectStore('slots').get(i);req.onsuccess=async()=>{if(req.result)await setSample(i,req.result.blob,req.result.name)}}}catch{}})();
-// Rebind preset and random controls to expanded behavior
-el('pattern').onchange=e=>e.target.value!=='custom'&&applyPreset(e.target.value);el('randomize').onclick=()=>{Object.keys(state.pattern).forEach(k=>state.pattern[k]=state.pattern[k].map((_,i)=>Math.random()<(k==='kick'?(i%4===0?.8:.13):['snare','clap'].includes(k)?(i%8===4?.8:.06):['hat','shaker'].includes(k)?.42:['lead','pluck','guitar'].includes(k)?.18:.24)));renderSteps();el('pattern').value='custom';toast('یک ریتم کامل تازه ساخته شد ✦')};
-// Persist V3 instrument state in project files
-const v3ProjectBase=project;project=function(){let p=v3ProjectBase();p.version=3;p.guitarNotes=state.guitarNotes;p.activeSample=state.activeSample;return p};
-const v3RestoreBase=restore;restore=function(p){v3RestoreBase(p);if(p.guitarNotes)state.guitarNotes=p.guitarNotes;if(Number.isInteger(p.activeSample))state.activeSample=p.activeSample;v2Build();renderSampler()};
-// Final V3 render
-v2Build();v3DecorateTracks();
-</script>
-
-<style>
-/* BeatBloom 3.1 — visible lane state and four independent sample lanes */
-.mini.track-power{width:42px;min-width:42px;height:28px;border-radius:7px;font-size:9px;font-weight:900;letter-spacing:.4px;color:#111;background:var(--tone);border-color:var(--tone)}
-.mini.track-power:not(.on){color:#ff8585;background:rgba(255,95,101,.1);border-color:#ff5f65;box-shadow:inset 0 0 0 1px rgba(255,95,101,.2)}
-.track.disabled{opacity:.62}.track.disabled .track-name{text-decoration:line-through;color:var(--muted)}.track.disabled .track-icon{filter:saturate(.25)}
-.slot-actions{grid-template-columns:repeat(3,1fr)}.slot-actions button{padding:4px 3px}.sample-lane-label{font-size:9px;color:var(--lime);font-weight:800}
-@media(max-width:520px){.slot-actions{grid-template-columns:1fr 1fr}.slot-actions button:last-child{grid-column:1/-1}}
-</style>
-<script>
-// Four sample slots now map one-to-one to four sequencer lanes.
-const sampleOne=trackDefs.find(t=>t.id==='sample');if(sampleOne){sampleOne.name='Sample 1';sampleOne.sub='Audio slot 1';sampleOne.icon='S1'}
-for(let i=2;i<=4;i++){let id='sample'+i;if(!trackDefs.some(t=>t.id===id))trackDefs.push({id,name:`Sample ${i}`,sub:`Audio slot ${i}`,icon:`S${i}`,tone:['#bef264','#86efac','#67e8f9'][i-2]});if(!state.pattern[id])state.pattern[id]=Array(32).fill(false);state.muted[id]=state.muted[id]??false;state.vol[id]=state.vol[id]??.8}
-sampleSlots.forEach((s,i)=>{s.overlap=s.overlap??true;s.voices=s.voices||new Set()});
-function stopSlotVoices(index){let s=sampleSlots[index];if(s.source){try{s.source.stop()}catch{}s.source=null}s.voices?.forEach(v=>{try{v.stop()}catch{}});s.voices?.clear()}
-function triggerSampleSlot(index,{respectLoop=false}={}){ensureAudio();let s=sampleSlots[index];if(!s?.buffer){toast(`اسلات ${index+1} هنوز صدا ندارد`);return false}if(respectLoop&&s.loop){if(s.source){try{s.source.stop()}catch{}s.source=null;renderSampler();return true}let src=ctx.createBufferSource();src.buffer=s.buffer;src.loop=true;src.connect(out());src.onended=()=>{if(s.source===src){s.source=null;renderSampler()}};src.start();s.source=src;renderSampler();return true}if(!s.overlap)stopSlotVoices(index);let src=ctx.createBufferSource();src.buffer=s.buffer;src.loop=false;src.connect(out());s.voices.add(src);src.onended=()=>{s.voices.delete(src);renderSampler()};src.start();renderSampler();return true}
-playSample=function(index=state.activeSample){return triggerSampleSlot(index,{respectLoop:true})};
-players.sample=()=>triggerSampleSlot(0);players.sample2=()=>triggerSampleSlot(1);players.sample3=()=>triggerSampleSlot(2);players.sample4=()=>triggerSampleSlot(3);
-const sampleLaneId=i=>i===0?'sample':`sample${i+1}`;
-renderSampler=function(){el('sampleSlots').innerHTML=sampleSlots.map((s,i)=>`<div class="sample-slot ${i===state.activeSample?'selected':''}" data-slot="${i}"><div class="slot-top"><span class="slot-num">${i+1}</span><button class="mini" data-select-slot="${i}" title="انتخاب برای ضبط یا واردکردن">${i===state.activeSample?'✓':'+'}</button></div><div><div class="slot-name">${s.name}</div><div class="sample-lane-label">Sequencer lane S${i+1}</div></div><div class="slot-actions"><button data-play-slot="${i}">${s.source?'Stop':'Play'}</button><button class="${s.loop?'on':''}" data-loop-slot="${i}">${s.loop?'Loop':'1-shot'}</button><button class="${s.overlap?'on':''}" data-overlap-slot="${i}">${s.overlap?'Stack':'Mono'}</button></div></div>`).join('')};
-function saveSamplerSettings(){localStorage.setItem('beatbloom-sampler-settings',JSON.stringify(sampleSlots.map(s=>({loop:s.loop,overlap:s.overlap}))))}
-try{let cfg=JSON.parse(localStorage.getItem('beatbloom-sampler-settings')||'[]');cfg.forEach((x,i)=>{if(sampleSlots[i]){sampleSlots[i].loop=!!x.loop;sampleSlots[i].overlap=x.overlap!==false}})}catch{}
-el('sampleSlots').onclick=e=>{let a=e.target.closest('[data-play-slot]'),l=e.target.closest('[data-loop-slot]'),o=e.target.closest('[data-overlap-slot]'),q=e.target.closest('[data-select-slot]');if(a){let i=+a.dataset.playSlot;state.activeSample=i;if(playSample(i)&&state.recording)recordStep(sampleLaneId(i))}if(l){let i=+l.dataset.loopSlot;sampleSlots[i].loop=!sampleSlots[i].loop;saveSamplerSettings();renderSampler()}if(o){let i=+o.dataset.overlapSlot;sampleSlots[i].overlap=!sampleSlots[i].overlap;if(!sampleSlots[i].overlap)stopSlotVoices(i);saveSamplerSettings();renderSampler();toast(sampleSlots[i].overlap?'Stack: صداها روی هم پخش می‌شوند':'Mono: صدای قبلی قطع می‌شود')}if(q){state.activeSample=+q.dataset.selectSlot;renderSampler();toast(`اسلات ${state.activeSample+1} برای ضبط/ورود انتخاب شد`)}};
-el('sampleStop').onclick=()=>{sampleSlots.forEach((_,i)=>stopSlotVoices(i));renderSampler()};
-// Replace previous number-key listener before it can double-trigger by capturing first.
-window.addEventListener('keydown',e=>{if(['INPUT','SELECT'].includes(e.target.tagName)||e.repeat)return;let i=+e.key-1;if(i<0||i>3)return;e.preventDefault();e.stopImmediatePropagation();state.activeSample=i;if(playSample(i)&&state.recording)recordStep(sampleLaneId(i))},true);
-function refreshLaneToggles(){document.querySelectorAll('.track').forEach(row=>{let b=row.querySelector('[data-mute]');if(!b)return;let off=!!state.muted[b.dataset.mute];row.classList.toggle('disabled',off);b.classList.toggle('on',!off);b.textContent=off?'OFF':'ON';b.setAttribute('aria-label',off?'فعال‌کردن ردیف':'غیرفعال‌کردن ردیف');b.title=off?'Enable lane':'Disable lane'})}
-const v4BuildBase=v2Build;v2Build=function(){v4BuildBase();refreshLaneToggles()};build=v2Build;
-el('tracks').addEventListener('click',e=>{if(e.target.closest('[data-mute]'))setTimeout(refreshLaneToggles,20)});
-// Include sampler behavior in project JSON.
-const v4ProjectBase=project;project=function(){let p=v4ProjectBase();p.version='3.1';p.sampleSettings=sampleSlots.map(s=>({loop:s.loop,overlap:s.overlap}));return p};
-const v4RestoreBase=restore;restore=function(p){v4RestoreBase(p);p.sampleSettings?.forEach((x,i)=>{if(sampleSlots[i]){sampleSlots[i].loop=!!x.loop;sampleSlots[i].overlap=x.overlap!==false}});saveSamplerSettings();v2Build();renderSampler()};
-// Re-render with all sample lanes.
-v2Build();renderSampler();refreshLaneToggles();
-</script>
-</body></html>
+    </header>
+    <main id="studio">
+      <section class="welcome">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">A SMALL IDEA. AN INFINITE LOOP.</p>
+          <h1 data-i18n="headline">Find your next groove.</h1>
+          <p class="welcome-copy" data-i18n="intro">
+            A few steps, a little curiosity. Make something that sounds like you.
+          </p>
+        </div>
+        <div class="session-meta">
+          <span class="session-dot"></span
+          ><span id="saveStatus" data-i18n="unsaved">Unsaved session</span
+          ><span class="version">STUDIO / 04</span>
+        </div>
+      </section>
+      <section class="transport panel" aria-label="Transport">
+        <div class="play-controls">
+          <button id="play" class="play-button" aria-label="Play" title="Play / pause (Space)">
+            <i data-lucide="play"></i></button
+          ><button id="stop" class="icon-button" aria-label="Stop">
+            <i data-lucide="square"></i></button
+          ><button
+            id="record"
+            class="icon-button record-button"
+            aria-label="Record into pattern"
+            aria-pressed="false"
+          >
+            <i data-lucide="circle"></i>
+          </button>
+        </div>
+        <output id="time" class="time" aria-label="Elapsed time">00:00.00</output>
+        <div class="transport-field">
+          <label for="bpm" data-i18n="tempo">TEMPO</label>
+          <div><input id="bpm" type="number" min="60" max="190" value="118" /><span>BPM</span></div>
+        </div>
+        <div class="transport-field swing-field">
+          <label for="swing" data-i18n="swing">SWING</label>
+          <div>
+            <input id="swing" type="range" min="0" max="55" value="12" /><output id="swingV"
+              >12%</output
+            >
+          </div>
+        </div>
+        <div class="transport-end">
+          <span id="audioStatus" class="audio-status" data-i18n="audioIdle"
+            >Audio on first play</span
+          ><button id="export" class="accent-button">
+            <i data-lucide="download"></i><span data-i18n="export">Export WAV</span>
+          </button>
+        </div>
+      </section>
+      <div class="workspace">
+        <div class="main-column">
+          <section class="panel sequencer-panel">
+            <div class="panel-heading">
+              <div class="heading-title">
+                <span class="section-number">01</span>
+                <h2 data-i18n="sequencer">Build a rhythm</h2>
+                <span class="chip" id="stepCount">16 STEPS</span>
+              </div>
+              <div class="heading-controls">
+                <button id="undo" class="icon-button small" aria-label="Undo" disabled>
+                  <i data-lucide="undo-2"></i></button
+                ><button id="redo" class="icon-button small" aria-label="Redo" disabled>
+                  <i data-lucide="redo-2"></i></button
+                ><span class="divider"></span
+                ><label class="sr-only" for="loopLength">Loop length</label
+                ><select id="loopLength">
+                  <option value="8">8 steps</option>
+                  <option value="16" selected>16 steps</option>
+                  <option value="24">24 steps</option>
+                  <option value="32">32 steps</option>
+                </select>
+              </div>
+            </div>
+            <div class="sequencer-tools">
+              <div class="lane-tabs" role="group" aria-label="Lane group">
+                <button class="tab active" data-group="all" data-i18n="all">All sounds</button
+                ><button class="tab" data-group="drums" data-i18n="drums">Drums</button
+                ><button class="tab" data-group="melody" data-i18n="melody">Melody</button
+                ><button class="tab" data-group="samples" data-i18n="samples">Samples</button>
+              </div>
+              <div class="groove-tools">
+                <label class="sr-only" for="pattern">Groove preset</label
+                ><select id="pattern">
+                  <option value="custom">Custom groove</option></select
+                ><button id="randomize" class="icon-button small" aria-label="Generate groove">
+                  <i data-lucide="shuffle"></i></button
+                ><button id="clear" class="icon-button small" aria-label="Clear pattern">
+                  <i data-lucide="eraser"></i>
+                </button>
+              </div>
+            </div>
+            <div
+              class="sequencer-scroll"
+              tabindex="0"
+              role="region"
+              aria-label="Scrollable step sequencer"
+            >
+              <div id="sequencer">
+                <div id="ruler" class="ruler"></div>
+                <div id="tracks"></div>
+                <div id="notes" class="note-row"></div>
+              </div>
+            </div>
+            <div class="panel-foot">
+              <span
+                ><span class="legend-dot"></span
+                ><span data-i18n="stepTip">Tap a step. Start a rhythm.</span></span
+              ><span data-i18n="muteTip">Click a sound name to mute · Scroll for more steps</span>
+            </div>
+          </section>
+          <div class="performance-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div class="heading-title">
+                  <span class="section-number">02</span>
+                  <h2 data-i18n="pads">Play it your way</h2>
+                </div>
+                <span class="chip">Q–I / A S D F</span>
+              </div>
+              <div id="pads" class="pads"></div>
+            </section>
+            <section class="panel instrument-panel">
+              <div class="panel-heading">
+                <div class="heading-title">
+                  <span class="section-number">03</span>
+                  <h2 data-i18n="instruments">Little instruments</h2>
+                </div>
+              </div>
+              <div class="instrument-toolbar">
+                <div class="lane-tabs" role="group" aria-label="Instrument">
+                  <button class="tab active" data-inst="piano">
+                    <i data-lucide="piano"></i><span data-i18n="piano">Piano</span></button
+                  ><button class="tab" data-inst="guitar">
+                    <i data-lucide="guitar"></i><span data-i18n="guitar">Guitar</span>
+                  </button>
+                </div>
+                <label class="keyboard-mode"
+                  ><input id="keyboardMode" type="checkbox" /><span data-i18n="pianoMode"
+                    >Piano keys</span
+                  ></label
+                >
+              </div>
+              <div class="keyboard-scroll"><div id="keyboard" class="keyboard"></div></div>
+              <div id="guitarboard" class="guitarboard" hidden></div>
+              <p class="instrument-tip" data-i18n="keyTip">
+                Piano keys on: Z–M plays notes. Shift moves up an octave.
+              </p>
+            </section>
+          </div>
+          <section class="panel sampler-panel">
+            <div class="panel-heading">
+              <div class="heading-title">
+                <span class="section-number">04</span>
+                <h2 data-i18n="sampleDeck">A sound of your own</h2>
+              </div>
+              <span class="chip" data-i18n="onDevice">ON YOUR DEVICE</span>
+            </div>
+            <div class="sampler-toolbar">
+              <button id="micRecord" class="quiet-button">
+                <i data-lucide="mic"></i><span data-i18n="mic">Record microphone</span></button
+              ><button id="importAudio" class="quiet-button">
+                <i data-lucide="upload"></i
+                ><span data-i18n="importAudio">Import audio</span></button
+              ><button id="sampleStop" class="icon-button small" aria-label="Stop all samples">
+                <i data-lucide="square"></i></button
+              ><input id="sampleUpload" type="file" accept="audio/*" hidden /><span
+                id="micStatus"
+                class="mic-status"
+                data-i18n="sampleLimits"
+                >Up to 20 MB / 30 seconds per slot</span
+              >
+            </div>
+            <div id="sampleSlots" class="sample-slots"></div>
+            <p class="sample-tip" data-i18n="sampleTip">
+              Select a slot before recording or importing. Number keys 1–4 trigger your sounds.
+            </p>
+          </section>
+        </div>
+        <aside class="side-column">
+          <section class="panel visualizer">
+            <div class="visualizer-label">
+              <span class="status-dot"></span><span data-i18n="soundRoom">YOUR SOUND, IN BLOOM</span
+              ><i data-lucide="audio-lines"></i>
+            </div>
+            <canvas id="scope" width="600" height="200" aria-label="Audio spectrum"></canvas>
+            <p data-i18n="visualizerCopy">Good things start with a little noise.</p>
+            <div class="visualizer-bottom">
+              <span>LOCAL FIRST</span><i data-lucide="shield-check"></i><span>ZERO UPLOADS</span>
+            </div>
+          </section>
+          <section class="panel sound-panel">
+            <div class="panel-heading">
+              <div class="heading-title">
+                <i data-lucide="sliders-horizontal"></i>
+                <h2 data-i18n="shaping">Shape your sound</h2>
+              </div>
+            </div>
+            <div class="fx-controls" id="fxControls"></div>
+            <div class="scene-title" data-i18n="scenes">A CHANGE OF SCENE</div>
+            <div class="scenes">
+              <button data-scene="sunset">
+                <i data-lucide="sunset"></i><span data-i18n="sunset">Sunset haze</span></button
+              ><button data-scene="club">
+                <i data-lucide="disc-3"></i><span data-i18n="club">Tiny club</span></button
+              ><button data-scene="space">
+                <i data-lucide="sparkles"></i><span data-i18n="spaceScene">Deep space</span></button
+              ><button data-scene="dry">
+                <i data-lucide="wind"></i><span data-i18n="dry">Clean room</span>
+              </button>
+            </div>
+          </section>
+          <section class="panel project-panel">
+            <div class="panel-heading">
+              <div class="heading-title">
+                <i data-lucide="folder-open"></i>
+                <h2 data-i18n="project">Your session</h2>
+              </div>
+              <span class="chip">.BEATBLOOM</span>
+            </div>
+            <div class="project-body">
+              <label class="field-label" for="projectName" data-i18n="sessionName"
+                >SESSION NAME</label
+              ><input
+                id="projectName"
+                class="project-name"
+                maxlength="80"
+                value="Untitled session"
+              />
+              <div class="project-actions">
+                <button id="save" class="quiet-button">
+                  <i data-lucide="save"></i><span data-i18n="save">Save here</span></button
+                ><button id="load" class="quiet-button">
+                  <i data-lucide="folder-open"></i><span data-i18n="load">Load saved</span></button
+                ><button id="downloadProject" class="quiet-button">
+                  <i data-lucide="file-down"></i
+                  ><span data-i18n="projectFile">Project file</span></button
+                ><button id="importProject" class="quiet-button">
+                  <i data-lucide="file-up"></i><span data-i18n="openFile">Open file</span>
+                </button>
+              </div>
+              <input
+                id="projectUpload"
+                type="file"
+                accept=".beatbloom,.json,application/json"
+                hidden
+              /><label class="tail-option"
+                ><input type="checkbox" id="exportTail" checked /><span data-i18n="tail"
+                  >Include sound tails in WAV</span
+                ></label
+              >
+              <p class="local-note">
+                <i data-lucide="hard-drive"></i
+                ><span data-i18n="localNote"
+                  >Saved in this browser. Download a project file to keep your sounds
+                  together.</span
+                >
+              </p>
+              <button id="eraseData" class="text-button" data-i18n="eraseData">
+                Erase local data
+              </button>
+            </div>
+          </section>
+          <div class="little-tip">
+            <i data-lucide="lightbulb"></i>
+            <p data-i18n="littleTip">
+              Start with a preset, change a few steps, and see where it takes you.
+            </p>
+          </div>
+        </aside>
+      </div>
+      <footer>
+        <span
+          >BEATBLOOM <span class="footer-star">✳</span>
+          <span data-i18n="footer">A little space for big ideas.</span></span
+        ><span data-i18n="footerPrivacy">No accounts. No tracking. Just you and the music.</span>
+      </footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="helpDialog">
+      <button class="dialog-close icon-button" aria-label="Close help">
+        <i data-lucide="x"></i>
+      </button>
+      <p class="eyebrow">WELCOME TO BEATBLOOM</p>
+      <h2 data-i18n="helpTitle">Your first little loop</h2>
+      <ol>
+        <li data-i18n="help1">Choose a groove, then press Play. Tap steps to make it yours.</li>
+        <li data-i18n="help2">
+          Use the pads, piano or guitar. Record adds your performance to the pattern.
+        </li>
+        <li data-i18n="help3">
+          Import a sound or record up to 30 seconds into a selected sample slot.
+        </li>
+        <li data-i18n="help4">
+          Save here for this browser, or download a project file including all samples.
+        </li>
+      </ol>
+      <p data-i18n="helpKeys">
+        Space: play/pause · 1–4: samples · Ctrl/⌘ Z: undo · Ctrl/⌘ S: save. Switch Piano keys on to
+        use Z–M without pad conflicts.
+      </p>
+      <p data-i18n="helpPrivacy">
+        Microphone access starts only when requested and ends when recording stops. Erase local data
+        removes saved projects and samples. Only share project files with people you want to hear
+        their audio.
+      </p>
+    </dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

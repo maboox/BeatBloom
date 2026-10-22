@@ -1,158 +1,125 @@
-# BeatBloom Studio
+<div align="center">
 
-> A playful, local-first music studio that runs entirely in your browser.
+![BeatBloom — Your little corner of sound](docs/banner.svg)
 
-![BeatBloom Studio interface](docs/beatbloom-preview.png)
+**A private, playful music studio. Right in your browser.**
 
-BeatBloom is a compact browser DAW for sketching beats, playing instruments, recording voice or found sounds, and turning ideas into loops — without accounts, analytics, uploads, or a build step.
+[![CI](https://github.com/maboox/BeatBloom/actions/workflows/ci.yml/badge.svg)](https://github.com/maboox/BeatBloom/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/maboox/BeatBloom/actions/workflows/codeql.yml/badge.svg)](https://github.com/maboox/BeatBloom/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-ff914d?style=flat-square)](LICENSE)
+[![English / فارسی](https://img.shields.io/badge/English-فارسی-c9ab79?style=flat-square)](README-fa.md)
 
-**English** · [راهنمای فارسی](README-fa.md)
+### [▶ Open the studio](https://maboox.github.io/BeatBloom/) · [↓ Releases](https://github.com/maboox/BeatBloom/releases) · [راهنمای فارسی](README-fa.md)
 
-## Why BeatBloom?
+No accounts. No tracking. No audio uploads.
 
-Full DAWs are powerful, but sometimes you only want to play. BeatBloom keeps the satisfying parts — sequencing, instruments, live recording, effects, sampling, presets, and WAV export — in a friendly interface that opens in seconds.
+</div>
 
-- **Local-first:** projects and recorded samples stay in your browser.
-- **No installation:** one self-contained `index.html` file.
-- **No backend:** works on localhost, GitHub Pages, or any static host.
-- **Playable:** mouse, touch, and computer-keyboard controls.
-- **Responsive:** designed for desktop, tablet, and mobile.
+![Actual BeatBloom 4 interface](docs/beatbloom-preview.png)
 
-## Features
+BeatBloom is a small browser music studio for quick ideas: sketch a rhythm, play a melody, record your voice, and take the loop with you. Synthesized instruments and imported samples run through one shared Web Audio engine for live playback and WAV rendering.
 
-### Sequencer
+## Make your first loop
 
-- 8, 16, 24, or 32-step loops
-- 17 independent lanes: Kick, Snare, Hi-hat, Clap, Bass, Chord, Tom, Shaker, Cowbell, Percussion, Lead, Pluck, Guitar, and four dedicated Sample lanes
-- Per-lane enable/disable controls
-- Live step recording from pads, piano, guitar, and the active sample slot
-- Clear and generative “Surprise me” actions
-- Zero-based transport timer and adjustable tempo/swing
+1. [Open BeatBloom](https://maboox.github.io/BeatBloom/) in a recent browser.
+2. Choose a groove and press **Play**. Tap a few steps to change it.
+3. Play the pads, piano or guitar. **Record into pattern** adds hits to the audible step.
+4. Select a sample slot, then record your microphone or import a sound.
+5. **Export WAV** for audio, or **Project file** for an editable backup including all four samples.
 
-### Instruments
+Use the **فارسی** button to switch to the Persian interface. Microphone access requires HTTPS or localhost and browser permission.
 
-- Two-octave piano with collision-free keys
-- Hold **Shift** with the Z–M keyboard layout to play the higher octave
-- Six-string interactive guitar fretboard
-- 12 performance pads with dedicated keyboard shortcuts
-- Synthesized drums, bass, chords, lead, pluck, and guitar tones using the Web Audio API
+## A little studio, a lot to play with
 
-### Voice & Sample Deck
+| Create                                 | Shape                             | Keep                                              |
+| -------------------------------------- | --------------------------------- | ------------------------------------------------- |
+| 17 lanes; 8 / 16 / 24 / 32 steps       | Per-lane mute and volume          | Save/load in this browser                         |
+| 10 ready-to-edit grooves               | Filter, delay, reverb and master  | Portable `.beatbloom` projects with audio         |
+| 12 performance pads                    | Adjustable tempo and swing        | Stereo 44.1 kHz / 16-bit WAV                      |
+| Two-octave piano and six-string guitar | Four one-shot / loop sample slots | Optional audio tails, or exact-length loop export |
+| Live pattern recording; undo / redo    | Stack or Mono sample triggering   | English and Persian; responsive layout            |
 
-- Record from your microphone
-- Import common browser-supported audio formats
-- Four persistent sample slots with four independent sequencer lanes
-- Each slot maps directly to Sample 1–4 in the sequencer
-- Per-slot Stack/Mono control: allow overlapping hits or cut the previous voice
-- One-shot or continuous loop playback
-- Trigger slots with number keys **1–4**
-- Samples are stored locally with IndexedDB
+Sample limits: **20 MB, 30 seconds, mono or stereo per slot**. Codec support depends on your browser. Existing v1–3.1 JSON arrangements can be imported; their audio uses this browser's existing slots because legacy JSON files did not contain audio.
 
-### Creative tools
+### Keyboard shortcuts
 
-- Filter, delay, reverb/space, swing, and master controls
-- House, Lo-fi, Trap, Disco, Funk, Afro, Ambient, DnB, Arcade, and Latin templates
-- Templates automatically repeat across the selected loop length
-- Local project save/load plus JSON import/export
-- Offline WAV rendering for the selected loop length
+| Action                      | Shortcut                                              |
+| --------------------------- | ----------------------------------------------------- |
+| Play / pause                | `Space` outside input controls and buttons            |
+| Drums and percussion        | `Q W E R T Y U I`                                     |
+| Bass / Chord / Lead / Pluck | `A S D F`                                             |
+| Piano mode                  | Enable **Piano keys**, then `Z S X D C V G B H N J M` |
+| Higher piano octave         | `Shift` + piano keys                                  |
+| Sample slots                | `1 2 3 4`                                             |
+| Undo / redo                 | `Ctrl/⌘ Z` / `Ctrl/⌘ Shift Z`                         |
+| Save locally                | `Ctrl/⌘ S`                                            |
 
-## Quick start
+Piano mode replaces the pad shortcuts so one keystroke plays one instrument. The note selector under the sequencer edits Bass/Chord, Lead, Pluck or Guitar. Live piano recording preserves the played pitch. Shortening a loop keeps the hidden steps for later expansion. Presets replace step patterns and tempo; **Undo** recovers the previous arrangement.
 
-### Recommended: local server
+## Your sounds stay with you
 
-Microphone access works most reliably on `localhost` or HTTPS.
+- Processing happens on your device. The app has no backend, analytics, external fonts or runtime CDN dependencies.
+- **Save here** stores the arrangement in localStorage. Sample blobs use IndexedDB on the same origin and browser profile. Slots are shared by locally saved arrangements.
+- **Project file** includes sample audio. Keep a backup before clearing site data, moving hosts, or replacing samples. Only share a project with people you want to hear its recordings.
+- **Erase local data** removes the saved arrangement and sample blobs. The current step pattern remains in memory until the page closes.
+- Microphone tracks stop when recording ends, fails, reaches its limit, or the page becomes hidden. Playback also stops on hidden tabs.
 
-**Windows**
+The public GitHub Pages host receives normal page and asset requests. The application does not send it your recordings or project contents. Browser extensions and your device remain outside the app's control. See [SECURITY.md](SECURITY.md).
+
+## Run and develop locally
+
+Use **Node.js 24 LTS** (minimum 22.13) and npm.
+
+```sh
+git clone https://github.com/maboox/BeatBloom.git
+cd BeatBloom
+npm ci --ignore-scripts
+npm run dev
+```
+
+Open the localhost address printed in the terminal. Windows users can run `run-local.bat`; macOS/Linux users can run `sh run-local.sh` after installing dependencies.
+
+```sh
+npm run check                 # lint, formatting, unit tests, production build
+npx playwright install chromium
+npm run test:e2e              # browser, accessibility, import and audio regression tests
+npm run test:production       # built artifact, CSP, export and license smoke test
+npm run preview              # preview the production build
+```
+
+If a compatible browser is already installed, use `PLAYWRIGHT_CHANNEL=msedge` or `chrome` for local tests. In PowerShell, set `$env:PLAYWRIGHT_CHANNEL='msedge'` first. The public CI uses Playwright's bundled Chromium.
+
+## Build and publish
+
+`npm run build` creates **`dist/`** with relative asset paths, license notices and no runtime package installation. Serve that folder on any static HTTPS host. Opening the source `index.html` with `file://` is not supported: this version uses JavaScript modules and a build step.
+
+GitHub Actions validates each main-branch change before the Pages workflow publishes it. Actions are pinned to reviewed commit hashes; Dependabot proposes updates. Pages must use **GitHub Actions** as its source. `_headers` supplies extra security headers on hosts that support that format; GitHub Pages ignores that file, so the app also includes a restrictive CSP meta tag.
+
+## How it is organized
 
 ```text
-Double-click run-local.bat
+src/
+  model.js       Known-key project validation, migrations, presets, musical timing
+  audio.js       Shared live/offline synthesis, effects, voice lifecycle, transport
+  storage.js     IndexedDB and local project persistence
+  wav.js         Stereo PCM WAV encoding
+  main.js        UI, keyboard routing, recording and portable project files
+  i18n.js        English/Persian strings and direction
+  style.css      Responsive studio interface
+  tokens.css     Warm orange design tokens
+tests/           Model, WAV, browser, accessibility and security regressions
+.github/         CI, CodeQL, Pages, dependency updates and contribution templates
+docs/            Real screenshots, architecture and release notes
 ```
 
-**macOS / Linux**
+More about timing, storage and tradeoffs: [Architecture](docs/ARCHITECTURE.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). Bugs: [report an issue](https://github.com/maboox/BeatBloom/issues/new/choose). Security concerns: [report privately](https://github.com/maboox/BeatBloom/security/advisories/new).
 
-```bash
-chmod +x run-local.sh
-./run-local.sh
-```
+## Scope and compatibility
 
-Then open [http://localhost:8080](http://localhost:8080).
+BeatBloom is a sketchpad, not a full multitrack DAW. Pattern recording captures quantized hits, not a continuous performance. WAV export renders one selected loop with optional tails; manual sample loops become sequenced one-shots in exports. Undo covers arrangement edits, not deleted or replaced audio. Portable files can be large because they contain the original audio.
 
-### Simple mode
+Current Chrome and Edge are the primary tested browsers. Firefox and Safari implement the required APIs, but codec support and microphone behavior vary; test your target browser before relying on a recording session. Touch, keyboard navigation and reduced-motion preferences are supported. Clearing browser storage removes local work unless you have downloaded a backup.
 
-You can also open `index.html` directly. Sequencing, instruments, importing audio, saving projects, and WAV export work without a server. Some browsers may block microphone access on `file://` pages.
+## License and credits
 
-## Controls
-
-| Action | Shortcut |
-|---|---|
-| Play / pause | `Space` |
-| Main drums | `Q W E R` |
-| Tom / Shaker / Cowbell / Perc | `T Y U I` |
-| Bass / Chord / Lead / Pluck pads | `A S D F` |
-| Piano octave 1 | `Z S X D C V G B H N J M` |
-| Piano octave 2 | Hold `Shift` + the same keys |
-| Sample slots | `1 2 3 4` |
-
-## Recording a live loop
-
-1. Choose 8, 16, 24, or 32 steps.
-2. Press the red **Record** button. Playback starts automatically.
-3. Play performance pads, piano notes, guitar frets, or a sample slot.
-4. Your performance is quantized into the matching sequencer lane.
-5. Press **Record** again to finish.
-
-## Recording voice or importing a sound
-
-1. Select one of the four sample slots.
-2. Choose **Record microphone** or **Import audio**.
-3. Set the slot to **1-shot** or **Loop**.
-4. Click **Play**, press its number key, or use the Sample lane in the sequencer.
-
-> Audio never leaves the browser. Clearing site data removes locally stored samples.
-
-## Deploy to GitHub Pages
-
-1. Create a public repository.
-2. Push the contents of this folder to the repository root.
-3. Open **Settings → Pages**.
-4. Select **Deploy from a branch**, then choose `main` and `/ (root)`.
-5. Open the generated HTTPS URL. Microphone recording will work because GitHub Pages uses HTTPS.
-
-No build command is required.
-
-## Project structure
-
-```text
-beatbloom/
-├── index.html                 # Entire application
-├── README.md                  # English documentation
-├── README-fa.md               # Persian documentation
-├── LICENSE                    # MIT license
-├── CONTRIBUTING.md            # Contribution guide
-├── CODE_OF_CONDUCT.md         # Community standards
-├── SECURITY.md                # Security policy
-├── run-local.bat              # Windows launcher
-├── run-local.sh               # macOS/Linux launcher
-└── docs/
-    └── beatbloom-preview.png  # Project screenshot
-```
-
-## Browser support
-
-Recent versions of Chrome and Edge provide the best experience. Firefox and Safari support most features, but microphone codecs and Web Audio behavior can vary. BeatBloom requires the Web Audio API; microphone recording additionally requires `MediaRecorder` and `getUserMedia`.
-
-## Privacy
-
-BeatBloom contains no telemetry, advertising, user accounts, cloud sync, or third-party trackers. Projects use `localStorage`; recorded/imported samples use IndexedDB. Audio processing happens on-device.
-
-## Contributing
-
-Ideas, bug reports, accessibility improvements, presets, and new instruments are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
-
-## License
-
-Released under the [MIT License](LICENSE), copyright © 2026 Maboox. You may use, modify, distribute, and host BeatBloom freely.
-
----
-
-Built for curiosity, quick ideas, and the joy of making noise.
+[MIT](LICENSE) © 2026 Maboox. Runtime libraries: [Lucide](https://lucide.dev) for consistent icons and [idb](https://github.com/jakearchibald/idb) for reliable IndexedDB transactions. Their licenses are included in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt) and the production build. All built-in instrument sounds are synthesized; no third-party sample recordings are shipped.

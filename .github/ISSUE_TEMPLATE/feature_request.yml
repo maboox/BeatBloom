@@ -1,0 +1,9 @@
+name: Feature idea / پیشنهاد قابلیت
+description: Describe a musical workflow you would like to improve.
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to make easier? / چه چیزی بهتر شود؟
+    validations:
+      required: true

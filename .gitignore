@@ -3,3 +3,16 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+node_modules/
+dist/
+test-results/
+playwright-report/
+coverage/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.beatbloom
+*.wav
+.audit-private/

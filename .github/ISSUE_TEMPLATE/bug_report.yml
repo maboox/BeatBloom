@@ -1,0 +1,23 @@
+name: Bug report / گزارش باگ
+description: Help us reproduce a problem without sharing private audio.
+title: '[Bug]: '
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened? / چه اتفاقی افتاد؟
+      description: Include expected behavior. Do not include private project files or recordings.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / مراحل تکرار
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser, version and device / مرورگر و دستگاه
+    validations:
+      required: true
